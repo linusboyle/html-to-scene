@@ -101,7 +101,7 @@ class HTMLToScene {
 
 	/** @type {Object} */
 	static get flags() {
-		return canvas.scene.data.flags;
+		return canvas.scene.flags;
 	}
 
 	/** Getters **/
