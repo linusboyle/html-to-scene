@@ -371,7 +371,7 @@ class HTMLToScene {
 	 * @returns Width of the screen in pixels minus the width of the right controls
 	 */
 	static calcSpacedWidth() {
-		let rightControlsElement = document.getElementById('ui-right');
+		let rightControlsElement = document.getElementById('sidebar');
 		let widthUImod = '' + rightControlsElement.offsetWidth;
 		return (
 			(window.innerWidth ||
@@ -438,16 +438,18 @@ class HTMLToScene {
 	 */
 
 	static async renderSceneConfig(sceneConfig, html, data) {
-		const ambItem = html.find('.item[data-tab=ambience]');
-		const ambTab = html.find('.tab[data-tab=ambience]');
+		const ambItem = html.querySelector('a[data-tab=ambience]');
+		const ambTab = html.querySelector('.tab[data-tab=ambience]');
 
-		ambItem.after(
-			`<a class="item" data-tab="htmltoscene"><i class="fas fa-file-code"></i> ${game.i18n.localize(
+		ambItem.insertAdjacentHTML("afterend",
+			`<a data-action="tab" data-group="sheet" data-tab="htmltoscene"><i class="fas fa-file-code"></i> ${game.i18n.localize(
 				'htmltoscene.modulename'
 			)}</a>`
 		);
+    console.log(ModuleInfo.moduleprefix + "received scene data:");
+    console.log(data);
 		let sceneTemplateData = await this.getSceneTemplateData(data);
-		ambTab.after(await this.getSceneHtml(sceneTemplateData));
+		ambTab.insertAdjacentHTML("afterend", await this.getSceneHtml(sceneTemplateData));
 
 		//Filepicker
 		/*$('#html-picker').click(() => {
@@ -472,7 +474,7 @@ class HTMLToScene {
 	 * @memberof HTMLToScene
 	 */
 	static getSceneTemplateData(hookData) {
-		const data = hookData.data?.flags?.htmltoscene || {
+		const data = hookData.document?.flags?.htmltoscene || {
 			enable: false,
 			fileLoc: '',
 			minUI: true,
@@ -628,8 +630,8 @@ class HTMLToScene {
 	 */
 	static getLeftStatus() {
 		let status = 0;
-		let logo = this.isDOMNodeShown($('#logo')[0]);
-		let controls = this.isDOMNodeShown($('#controls')[0]);
+		let logo = false;
+		let controls = this.isDOMNodeShown($('#scene-controls')[0]);
 		let players = this.isDOMNodeShown($('#players')[0]);
 		status = logo + controls * 2 + players * 3;
 
@@ -645,43 +647,51 @@ class HTMLToScene {
 	static setLeftStatus(leftStatus) {
 		switch (leftStatus) {
 			case 0:
-				this.nodeVisibility($('#logo')[0], 'hidden');
-				this.nodeVisibility($('#controls')[0], 'hidden');
+				// this.nodeVisibility($('#logo')[0], 'hidden');
+				this.nodeVisibility($('#scene-controls')[0], 'hidden');
+        this.nodeVisibility($('#scene-navigation')[0], 'hidden');
 				this.nodeVisibility($('#players')[0], 'hidden');
 				break;
 			case 1:
-				this.nodeVisibility($('#logo')[0], 'visible');
-				this.nodeVisibility($('#controls')[0], 'hidden');
+				// this.nodeVisibility($('#logo')[0], 'visible');
+				this.nodeVisibility($('#scene-controls')[0], 'hidden');
+        this.nodeVisibility($('#scene-navigation')[0], 'hidden');
 				this.nodeVisibility($('#players')[0], 'hidden');
 				break;
 			case 2:
-				this.nodeVisibility($('#logo')[0], 'hidden');
-				this.nodeVisibility($('#controls')[0], 'visible');
+				// this.nodeVisibility($('#logo')[0], 'hidden');
+				this.nodeVisibility($('#scene-controls')[0], 'visible');
+        this.nodeVisibility($('#scene-navigation')[0], 'visible');
 				this.nodeVisibility($('#players')[0], 'hidden');
 				break;
 			case 3:
-				this.nodeVisibility($('#logo')[0], 'visible');
-				this.nodeVisibility($('#controls')[0], 'visible');
+				// this.nodeVisibility($('#logo')[0], 'visible');
+				this.nodeVisibility($('#scene-controls')[0], 'visible');
+        this.nodeVisibility($('#scene-navigation')[0], 'visible');
 				this.nodeVisibility($('#players')[0], 'hidden');
 				break;
 			case 4:
-				this.nodeVisibility($('#logo')[0], 'visible');
-				this.nodeVisibility($('#controls')[0], 'hidden');
+				// this.nodeVisibility($('#logo')[0], 'visible');
+				this.nodeVisibility($('#scene-controls')[0], 'hidden');
+        this.nodeVisibility($('#scene-navigation')[0], 'hidden');
 				this.nodeVisibility($('#players')[0], 'visible');
 				break;
 			case 5:
-				this.nodeVisibility($('#logo')[0], 'hidden');
-				this.nodeVisibility($('#controls')[0], 'visible');
+				// this.nodeVisibility($('#logo')[0], 'hidden');
+				this.nodeVisibility($('#scene-controls')[0], 'visible');
+        this.nodeVisibility($('#scene-navigation')[0], 'visible');
 				this.nodeVisibility($('#players')[0], 'visible');
 				break;
 			case 6:
-				this.nodeVisibility($('#logo')[0], 'visible');
-				this.nodeVisibility($('#controls')[0], 'visible');
+				// this.nodeVisibility($('#logo')[0], 'visible');
+				this.nodeVisibility($('#scene-controls')[0], 'visible');
+        this.nodeVisibility($('#scene-navigation')[0], 'visible');
 				this.nodeVisibility($('#players')[0], 'visible');
 				break;
 			case 7:
-				this.nodeVisibility($('#logo')[0], 'hidden');
-				this.nodeVisibility($('#controls')[0], 'hidden');
+				// this.nodeVisibility($('#logo')[0], 'hidden');
+				this.nodeVisibility($('#scene-controls')[0], 'hidden');
+        this.nodeVisibility($('#scene-navigation')[0], 'hidden');
 				this.nodeVisibility($('#players')[0], 'visible');
 				break;
 		}

@@ -13,6 +13,12 @@ class HTMLToSceneHooks {
 		Hooks.on('updateScene', (...args) => HTMLToScene.replace(...args));
 
 		Hooks.on('canvasPan', () => HTMLToScene.updateDimensions());
+		Hooks.on('collapseSidebar', () => {
+      setTimeout(() => {
+        HTMLToScene.updateDimensions()
+      }, 260)
+      // hardcoded animation duration for V13, it might break in the future
+    });
 
 		Hooks.on('renderSmallTimeApp', () => HTMLToScene.updateSmallTime());
 		Hooks.on('diceSoNiceReady', () => {

@@ -1,4 +1,4 @@
-<div class="tab" data-tab="htmltoscene">
+<div class="tab scrollable" data-group="sheet" data-tab="htmltoscene">
 	<div class="form-group">
 		<label>{{ localize "htmltoscene.scenesettings.enable.name" }}</label>
 		<input type="checkbox" name="flags.htmltoscene.enable" data-dtype="Boolean" onclick="syncEnabled(this)"
@@ -173,8 +173,8 @@
 			</div>
 			<hr style="width:80%"/>
 		</div>
+	<p  style="font-style:italic;color:brown">{{ localize "htmltoscene.scenesettings.rememberjsexecution" }}</p>
 	</div>
-	<p style="font-style:italic;color:brown">{{ localize "htmltoscene.scenesettings.rememberjsexecution" }}</p>
 	<script>
 		//init
 		if(!$('#htmltosceneAutoMacrosCB').is(":checked")){
